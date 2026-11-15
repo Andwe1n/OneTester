@@ -17,8 +17,11 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: android-actions/setup-android@v3
-      - run: sdkmanager 'platforms;android-30'
+      - name: Set up Android SDK for bridge compilation
+        uses: android-actions/setup-android@v3
+        with:
+          # Override the default list, which includes the unavailable legacy 'tools' package.
+          packages: 'platforms;android-30'
       - run: bun install --frozen-lockfile
       - run: bun run check
       - run: bun run test
