@@ -1,5 +1,11 @@
 # OneTester: product direction
 
+## Implemented in 0.4
+
+The project now includes a macOS Electron app and an FTC SDK 12-compatible robot bridge. The connected workspace imports the configured hardware map, polls live telemetry, applies runtime limits/direction and device commands, records CSV, and uploads/runs timed programs on the robot. Java OpMode export is also available. The original prototype below remains available as an explicit demo. PID/trajectory execution, vendor firmware programming, unconfigured device discovery, and camera adapters remain outside the connected implementation. See [README.md](README.md) and [robot setup](robot/README.md) for current behavior.
+
+The remaining sections preserve the original design brief; their first-deliverable/future wording describes the prototype stage.
+
 ## First deliverable
 
 A desktop-first, local interactive visual prototype for FTC teams. It demonstrates the workflow with clearly labeled simulated devices and telemetry. This stage has no robot connection, hardware discovery, device programming, or physical motion.

@@ -1,10 +1,54 @@
 {
   "name": "onetester",
-  "version": "0.3.0",
+  "productName": "OneTester",
+  "version": "0.4.0",
   "private": true,
-  "description": "An interactive visual prototype of the FTC robot workbench.",
+  "description": "A desktop workbench for configuring, reading and programming FTC robot hardware.",
+  "type": "module",
+  "main": "desktop/main.cjs",
   "scripts": {
     "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
-    "check": "node --check app.js"
+    "desktop": "electron .",
+    "format": "biome format --write .",
+    "check": "biome check --error-on-warnings . && node --check app.js && node --check desktop/main.cjs",
+    "test": "node --test tests/protocol.test.js tests/client.test.js",
+    "mock": "sh scripts/verify-bridge.sh && node scripts/mock-controller.js",
+    "package:mac": "electron-builder --mac zip --arm64 --x64",
+    "package:mac:arm64": "electron-builder --mac zip --arm64",
+    "test:bridge": "sh scripts/verify-bridge.sh && node --test tests/bridge.test.js",
+    "test:desktop": "sh scripts/verify-bridge.sh && node scripts/test-desktop.js"
+  },
+  "build": {
+    "appId": "dev.onetester.workbench",
+    "productName": "OneTester",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "desktop/**",
+      "lib/**",
+      "app.js",
+      "live-workbench.js",
+      "styles.css",
+      "live.css",
+      "index.html",
+      "robot/**",
+      "README.md"
+    ],
+    "mac": {
+      "target": "zip",
+      "category": "public.app-category.developer-tools",
+      "identity": null,
+      "minimumSystemVersion": "13.0",
+      "icon": "build/icon.png"
+    },
+    "artifactName": "OneTester-${version}-${arch}.${ext}"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.7",
+    "electron": "45.3.2",
+    "electron-builder": "26.18.0",
+    "playwright-core": "1.65.1"
   }
 }

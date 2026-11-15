@@ -1,0 +1,23 @@
+import AppKit
+let size = 1024
+let image = NSImage(size: NSSize(width: size, height: size))
+image.lockFocus()
+NSColor(calibratedRed: 0.075, green: 0.09, blue: 0.10, alpha: 1).setFill()
+NSBezierPath(roundedRect: NSRect(x: 0, y: 0, width: size, height: size), xRadius: 210, yRadius: 210).fill()
+NSColor(calibratedRed: 0.725, green: 0.871, blue: 0.953, alpha: 1).setFill()
+let left = NSBezierPath()
+left.move(to: NSPoint(x: 235, y: 690))
+left.line(to: NSPoint(x: 430, y: 800))
+left.line(to: NSPoint(x: 430, y: 220))
+left.line(to: NSPoint(x: 235, y: 360))
+left.close(); left.fill()
+let right = NSBezierPath()
+right.move(to: NSPoint(x: 590, y: 800))
+right.line(to: NSPoint(x: 785, y: 690))
+right.line(to: NSPoint(x: 785, y: 360))
+right.line(to: NSPoint(x: 590, y: 220))
+right.close(); right.fill()
+NSBezierPath(rect: NSRect(x: 420, y: 440, width: 180, height: 145)).fill()
+image.unlockFocus()
+let bitmap = NSBitmapImageRep(data: image.tiffRepresentation!)!
+try bitmap.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: "build/icon.png"))

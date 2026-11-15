@@ -1,0 +1,26 @@
+name: Quality and controller integration
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: android-actions/setup-android@v3
+      - run: sdkmanager 'platforms;android-30'
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run test
+      - name: Compile FTC bridge and test controller behavior
+        run: ONETESTER_JDK="$JAVA_HOME" ONETESTER_ANDROID_JAR="$ANDROID_HOME/platforms/android-30/android.jar" bun run test:bridge
